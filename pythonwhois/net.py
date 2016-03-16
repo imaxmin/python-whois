@@ -2,7 +2,7 @@ import socket, re, sys
 from codecs import encode, decode
 from . import shared
 
-def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=False, with_server_list=False, server_list=None, timeout=0):
+def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=False, with_server_list=False, server_list=None, timeout=None):
 	previous = previous or []
 	server_list = server_list or []
 	# Sometimes IANA simply won't give us the right root WHOIS server
@@ -81,7 +81,7 @@ def get_root_server(domain):
 		return match.group(1)
 	raise shared.WhoisException("No root WHOIS server found for domain.")
 	
-def whois_request(domain, server, port=43, timeout=0):
+def whois_request(domain, server, port=43, timeout=None):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.settimeout(timeout)
 	sock.connect((server, port))
